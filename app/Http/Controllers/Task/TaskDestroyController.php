@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use Illuminate\Http\Request;
 
-class TaskIndexController extends Controller
+class TaskDestroyController extends Controller
 {
     public function __invoke(Task $task)
     {
-        $tasks = Task::all();
-        return inertia('Task/Index', compact('tasks'));
+        $task->delete();
+        return redirect()->route('tasks.index');
     }
 }
