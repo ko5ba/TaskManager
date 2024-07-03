@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Task extends Model
+class Tag extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $guarded = [];
-    protected $table = 'tasks';
+    protected $guarded =[];
+    protected $table = 'tags';
 
-    public function tags()
+    public function tasks()
     {
-        return $this->belongsToMany(Tag::class, 'task_tags', 'task_id', 'tag_id');
+        return $this->belongsToMany(Task::class, 'task_tags', 'tag_id', 'task_id');
     }
 }
