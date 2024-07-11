@@ -23,10 +23,10 @@ function destroy()
         <article>
             <div>
                 <div v-if="task">
-                    <div>{{ task.title }}</div>
-                    <div>{{ task.description }}</div>
-                    <div>{{ task.priority }}</div>
-                    <div>{{ task.deadline }}</div>
+                    <div>Название: {{ task.title }}</div>
+                    <div>Описание: {{ task.description }}</div>
+                    <div>Приоритет: {{ task.priority }}</div>
+                    <div>Срок окончания: {{ task.deadline }}</div>
                 </div>
             </div>
             <div>
