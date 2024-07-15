@@ -13,9 +13,6 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->index('user_id', 'tasks_user_idx');
-            $table->foreign('user_id', 'tasks_user_fk')->references('id')->on('users')->cascadeOnDelete();
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('priority')->nullable();
