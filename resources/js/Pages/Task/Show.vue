@@ -26,7 +26,8 @@ function destroy()
                     <div>Название: {{ task.title }}</div>
                     <div>Описание: {{ task.description }}</div>
                     <div>Приоритет: {{ task.priority }}</div>
-                    <div>Срок окончания: {{ task.deadline }}</div>
+                    <div>Срок окончания: {{ task.date_deadline }}</div>
+                    <div>Время: {{ task.time_deadline }}</div>
                 </div>
             </div>
             <div>

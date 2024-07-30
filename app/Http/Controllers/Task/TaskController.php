@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -41,6 +42,9 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
+        if ($task->time_deadline) {
+            $task->time_deadline = Carbon::createFromFormat('H:i:s', $task->time_deadline)->format('H:i');
+        }
         return inertia('Task/Show', compact('task'));
     }
 

@@ -8,14 +8,15 @@ const form = reactive({
     title: null,
     description: null,
     priority: null,
-    deadline: null
+    date_deadline: null,
+    time_deadline: null
 })
 
 onMounted(() => {
     form.title = props.task.title
     form.description = props.task.description
     form.priority = props.task.priority
-    form.deadline = props.task.deadline
+    form.date_deadline = props.task.date_deadline
 })
 
 function update()
@@ -48,8 +49,12 @@ function update()
                         <input id="priority" type="text" v-model="form.priority">
                     </div>
                     <div>
-                        <label for="deadline">Крайний срок: </label>
-                        <input id="deadline" type="date" v-model="form.deadline">
+                        <label for="date_deadline">Крайний срок: </label>
+                        <input id="date_deadline" type="date" v-model="form.date_deadline">
+                    </div>
+                    <div>
+                        <label for="time_deadline">Время: </label>
+                        <input id="time_deadline" type="time" v-model="form.time_deadline">
                     </div>
                     <div>
                         <button type="submit">Редактировать</button>

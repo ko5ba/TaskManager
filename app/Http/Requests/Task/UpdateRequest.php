@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Task;
 
+use App\Rules\Time;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
@@ -25,7 +26,8 @@ class UpdateRequest extends FormRequest
             'title' => 'nullable|string',
             'description' => 'nullable|string',
             'priority' => 'nullable|string',
-            'deadline' => 'nullable|string'
+            'date_deadline' => 'nullable|date',
+            'time_deadline' => ['nullable', new Time]
         ];
     }
 }
