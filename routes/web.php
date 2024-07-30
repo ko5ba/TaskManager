@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Task\TaskController;
+use App\Http\Middleware\CorrectUrl;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -13,7 +14,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -27,6 +28,10 @@ Route::middleware('auth')->group(function () {
         ->missing(function() {
             return redirect()->route('tasks.index');
         });
+});
+
+Route::fallback(function(){
+    return redirect()->route('home');
 });
 
 /*
