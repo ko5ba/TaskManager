@@ -46,7 +46,11 @@ function update()
                     </div>
                     <div>
                         <label for="priority">Приоритет: </label>
-                        <input id="priority" type="text" v-model="form.priority">
+                        <select name="priority" id="priority" v-model="form.priority">
+                            <option value="Низкий">Низкий</option>
+                            <option value="Средний">Средний</option>
+                            <option value="Высокий">Высокий</option>
+                        </select>
                     </div>
                     <div>
                         <label for="date_deadline">Крайний срок: </label>
