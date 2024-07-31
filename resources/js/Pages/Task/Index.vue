@@ -23,7 +23,7 @@ const props = defineProps(['tasks']);
                 <Link :href="route('tasks.create')">Создать новую задачу</Link>
             </div>
             <div>
-                <Link :href="route('home')">Вернуть на главную</Link>
+                <Link :href="route('home')">Вернуться на главную</Link>
             </div>
         </article>
     </section>

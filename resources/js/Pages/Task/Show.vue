@@ -38,7 +38,7 @@ function destroy()
                 </form>
             </div>
             <div>
-                <Link :href="route('tasks.edit', task.id)">Редактироват задачу</Link>
+                <Link :href="route('tasks.edit', task.id)">Редактировать задачу</Link>
             </div>
             <div>
                 <Link :href="route('tasks.index')">Вернуться к списку</Link>
