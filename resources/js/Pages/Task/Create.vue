@@ -6,7 +6,8 @@ const form = reactive({
     title: null,
     description: null,
     priority: null,
-    deadline: null,
+    date_deadline: null,
+    time_deadline: null
 })
 
 function store()
@@ -36,11 +37,19 @@ function store()
                     </div>
                     <div>
                         <label for="priority">Приоритет: </label>
-                        <input id="priority" type="text" v-model="form.priority">
+                        <select id="priority" name="priority" v-model="form.priority">
+                            <option value="Низкий">Низкий</option>
+                            <option value="Средний">Средний</option>
+                            <option value="Высокий">Высокий</option>
+                        </select>
                     </div>
                     <div>
-                        <label for="deadline">Крайний срок: </label>
-                        <input id="deadline" type="date" v-model="form.deadline">
+                        <label for="date_deadline">Крайний срок: </label>
+                        <input id="date_deadline" type="date" v-model="form.date_deadline">
+                    </div>
+                    <div>
+                        <label for="time_deadline">Время: </label>
+                        <input id="time_deadline" type="time" v-model="form.time_deadline" >
                     </div>
                     <div>
                         <button type="submit">Создать задачу</button>

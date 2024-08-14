@@ -4,11 +4,18 @@ import { reactive } from 'vue'
 
 const props = defineProps(['task'])
 
-const form = reactive({})
+const formDelete = reactive({})
 
 function destroy()
 {
-    router.delete(`/tasks/${props.task.id}`, form)
+    router.delete(`/tasks/${props.task.id}`, formDelete)
+}
+
+const formReady = reactive({})
+
+function storeReady()
+{
+    router.post(`/tasks-ready/${props.task.id}`, formReady)
 }
 </script>
 <template>
@@ -26,8 +33,16 @@ function destroy()
                     <div>Название: {{ task.title }}</div>
                     <div>Описание: {{ task.description }}</div>
                     <div>Приоритет: {{ task.priority }}</div>
-                    <div>Срок окончания: {{ task.deadline }}</div>
+                    <div>Срок окончания: {{ task.date_deadline }}</div>
+                    <div>Время: {{ task.time_deadline }}</div>
                 </div>
+            </div>
+            <div>
+                <form @submit.prevent="storeReady">
+                    <div>
+                        <button type="submit">Задача выполнена</button>
+                    </div>
+                </form>
             </div>
             <div>
                 <form @submit.prevent="destroy">
@@ -37,7 +52,7 @@ function destroy()
                 </form>
             </div>
             <div>
-                <Link :href="route('tasks.edit', task.id)">Редактироват задачу</Link>
+                <Link :href="route('tasks.edit', task.id)">Редактировать задачу</Link>
             </div>
             <div>
                 <Link :href="route('tasks.index')">Вернуться к списку</Link>

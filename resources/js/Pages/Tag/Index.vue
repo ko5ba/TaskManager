@@ -23,7 +23,9 @@ const props = defineProps(['tags'])
     </section>
     <section>
         <footer>
-
+            <div>
+                <Link :href="route('home')">Вернуться на главную</Link>
+            </div>
         </footer>
     </section>
 </template>

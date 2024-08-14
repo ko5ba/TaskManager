@@ -33,6 +33,9 @@ function destroy()
                     </div>
                 </form>
             </div>
+            <div>
+                <Link :href="route('tags.edit', tag.id)">Редактировать тег</Link>
+            </div>
         </article>
     </section>
     <section>
