@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Models\Task;
+use App\Models\User;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use function Termwind\ask;
 
@@ -20,9 +23,11 @@ class TaskController extends Controller
     {
         $tasks = Task::query()
             ->where('is_ready', false)
+            ->where('user_id', auth()->id())
             ->orderBy('date_deadline', 'asc')
             ->orderBy('time_deadline', 'asc')
             ->get();
+        
         return inertia('Task/Index', compact('tasks'));
     }
 
@@ -39,8 +44,10 @@ class TaskController extends Controller
      */
     public function store(StoreRequest $request, Task $task)
     {
-        $task->create($request->validated());
-        return to_route('tasks.index');
+        $task->fill($request->validated());
+        $task->user_id = auth()->id();
+        $task->save();
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -84,6 +91,7 @@ class TaskController extends Controller
     {
         $tasks = Task::query()
             ->where('is_ready', true)
+            ->where('user_id', auth()->id())
             ->orderBy('date_deadline', 'asc')
             ->orderBy('time_deadline', 'asc')
             ->get();
@@ -93,10 +101,16 @@ class TaskController extends Controller
         ]);
     }
 
-    public function addReadyTask(Task $task)
+    public function addReadyTask(Task $task, User $user)
     {
         $task->is_ready = true;
         $task->save();
+
+        DB::table('daily_completed_tasks')->insert([
+            'user_id' => auth()->id(),
+            'completed_tasks_count' => 1,
+            'created_at' => new DateTime()
+        ]);
 
         return redirect()->route('tasks.index.ready');
     }
