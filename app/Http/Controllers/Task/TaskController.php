@@ -9,6 +9,8 @@ use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+use function Termwind\ask;
+
 class TaskController extends Controller
 {
     /**
@@ -16,7 +18,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::query()
+            ->where('is_ready', false)
+            ->orderBy('date_deadline', 'asc')
+            ->orderBy('time_deadline', 'asc')
+            ->get();
         return inertia('Task/Index', compact('tasks'));
     }
 
@@ -72,5 +78,38 @@ class TaskController extends Controller
     {
         $task->delete();
         return redirect()->route('tasks.index');
+    }
+
+    public function indexReadyTask()
+    {
+        $tasks = Task::query()
+            ->where('is_ready', true)
+            ->orderBy('date_deadline', 'asc')
+            ->orderBy('time_deadline', 'asc')
+            ->get();
+        
+        return inertia('Task/IndexReadyTask', [
+            'tasks' => $tasks
+        ]);
+    }
+
+    public function addReadyTask(Task $task)
+    {
+        $task->is_ready = true;
+        $task->save();
+
+        return redirect()->route('tasks.index.ready');
+    }
+
+    public function showReadyTask(Task $task)
+    {
+        $date = $task->updated_at;
+        $dateNew = Carbon::parse($date);
+        $formattedDate = $dateNew->format('d M H:i');
+        
+        return inertia('Task/ShowReadyTask', [
+            'task' => $task,
+            'formattedDate' => $formattedDate
+        ]);
     }
 }

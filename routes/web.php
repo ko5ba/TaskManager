@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Tag\TagController;
 use App\Http\Controllers\Task\TaskController;
 use App\Http\Middleware\CorrectUrl;
+use App\Models\Task;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,6 +34,9 @@ Route::middleware('auth')->group(function () {
         ->missing(function(){
             return redirect()->route('tags.index');
         });
+    Route::get('/tasks-ready', [TaskController::class, 'indexReadyTask'])->name('tasks.index.ready');
+    Route::post('/tasks-ready/{task}', [TaskController::class, 'addReadyTask'])->name('task.add.ready');
+    Route::get('/tasks-ready/{task}', [TaskController::class, 'showReadyTask'])->name('tasks.show.ready');
 });
 
 Route::fallback(function(){
