@@ -23,11 +23,19 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'string',
+            'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'priority' => 'nullable|string',
             'date_deadline' => 'nullable|date',
             'time_deadline' => ['nullable', new Time]
+        ];
+    }
+
+    public function message(): array
+    {
+        return [
+            'title.required' => 'Вы не ввели название задачи',
+            'title.max:255' => 'Вы ввели огромное количество символов',
         ];
     }
 }

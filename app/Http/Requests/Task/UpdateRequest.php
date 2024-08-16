@@ -23,11 +23,18 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'nullable|string',
+            'title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'priority' => 'nullable|string',
             'date_deadline' => 'nullable|date',
             'time_deadline' => ['nullable', new Time]
+        ];
+    }
+
+    public function message(): array 
+    {
+        return[
+            'title.max:255' => 'Вы ввели огромное количество символов'
         ];
     }
 }

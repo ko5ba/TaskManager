@@ -2,12 +2,14 @@
 import { router, Link } from '@inertiajs/vue3'
 import { reactive } from 'vue'
 
+const props = defineProps(['tags'])
+
 const form = reactive({
     title: null,
     description: null,
     priority: null,
     date_deadline: null,
-    time_deadline: null
+    time_deadline: null,
 })
 
 function store()

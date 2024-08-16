@@ -12,4 +12,5 @@ class TaskTag extends Model
     use SoftDeletes;
 
     protected $table = 'task_tags';
+    protected $guarded = [];
 }

@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Task;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
+use App\Models\Tag;
 use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use function Termwind\ask;
@@ -19,7 +19,7 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Tag $tag)
     {
         $tasks = Task::query()
             ->where('is_ready', false)
@@ -28,7 +28,9 @@ class TaskController extends Controller
             ->orderBy('time_deadline', 'asc')
             ->get();
         
-        return inertia('Task/Index', compact('tasks'));
+        return inertia('Task/Index', [
+            'tasks' => $tasks
+        ]);
     }
 
     /**
@@ -36,6 +38,7 @@ class TaskController extends Controller
      */
     public function create()
     {
+        $tags = Tag::all();
         return inertia('Task/Create');
     }
 
@@ -44,9 +47,11 @@ class TaskController extends Controller
      */
     public function store(StoreRequest $request, Task $task)
     {
-        $task->fill($request->validated());
+        $data = $request->validated();
+        $task->fill($data);
         $task->user_id = auth()->id();
-        $task->save();
+        $task = $task->save();
+
         return redirect()->route('tasks.index');
     }
 
@@ -66,7 +71,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        return inertia('Task/Edit', compact('task'));
+        return inertia('Task/Edit', [
+            'task' => $task
+        ]);
     }
 
     /**
@@ -75,7 +82,8 @@ class TaskController extends Controller
     public function update(UpdateRequest $request, Task $task)
     {
         $task->update($request->validated());
-        return to_route('tasks.index');
+
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -95,9 +103,17 @@ class TaskController extends Controller
             ->orderBy('date_deadline', 'asc')
             ->orderBy('time_deadline', 'asc')
             ->get();
+
+        $today = Carbon::today();
+        $countReadyTask = Task::query()
+            ->where('is_ready', true)
+            ->where('user_id', auth()->id())
+            ->whereDate('created_at', $today)
+            ->count();
         
         return inertia('Task/IndexReadyTask', [
-            'tasks' => $tasks
+            'tasks' => $tasks,
+            'countReadyTask' => $countReadyTask
         ]);
     }
 
